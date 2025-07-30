@@ -55,10 +55,11 @@ z-index: 1;
             align-items: center;
             font-size: 1.5rem;
             font-weight: bold;
+            gap: 10px;
         }
 
         .logo::before {
-            content: "🎨";
+            content: "";
             margin-right: 10px;
             font-size: 2rem;
         }
@@ -325,7 +326,7 @@ z-index: 1;
 
         .contact-item.email::before { content: "📧"; }
         .contact-item.location::before { content: "📍"; }
-        .contact-item.social::before { content: "🌐"; }
+        .contact-item.social::before { content: ""; }
 
         /* Blog Section */
         .blog-grid {
