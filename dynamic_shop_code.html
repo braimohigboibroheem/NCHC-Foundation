@@ -1,0 +1,671 @@
+<!-- REPLACE YOUR EXISTING SHOP SECTION WITH THIS -->
+<section id="shop" class="section">
+    <div class="shop-header">
+        <h2>Heritage Shop</h2>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
+            Beautiful handcrafted items made by our talented students and artisans
+        </p>
+        <button id="adminBtn" class="admin-btn" onclick="toggleAdmin()">Admin</button>
+        <button id="cartBtn" class="cart-btn" onclick="toggleCart()">
+            Cart (<span id="cartCount">0</span>) - ₦<span id="cartTotal">0</span>
+        </button>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <h3>Admin Panel</h3>
+        <form id="addProductForm" class="admin-form">
+            <input type="text" id="productName" placeholder="Product Name" required>
+            <input type="number" id="productPrice" placeholder="Price (₦)" required>
+            <textarea id="productDesc" placeholder="Description" required></textarea>
+            <select id="productCategory" required>
+                <option value="">Select Category</option>
+                <option value="adire">Adire Fabrics</option>
+                <option value="art">Artwork</option>
+                <option value="crafts">Crafts</option>
+                <option value="kits">Learning Kits</option>
+            </select>
+            <input type="file" id="productImage" accept="image/*">
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+    
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <span class="cart-close" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: ₦<span id="sidebarTotal">0</span></div>
+            <button class="checkout-btn" onclick="proceedCheckout()">Checkout</button>
+            <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+    
+    <div class="shop-container">
+        <div class="shop-categories">
+            <button class="category-btn active" onclick="filterProducts('all')">All Items</button>
+            <button class="category-btn" onclick="filterProducts('adire')">Adire Fabrics</button>
+            <button class="category-btn" onclick="filterProducts('art')">Artwork</button>
+            <button class="category-btn" onclick="filterProducts('crafts')">Crafts</button>
+            <button class="category-btn" onclick="filterProducts('kits')">Learning Kits</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+    </div>
+</section>
+
+<!-- ADD THESE STYLES TO YOUR CSS -->
+<style>
+/* Shop Header */
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.admin-btn, .cart-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.admin-btn:hover, .cart-btn:hover {
+    background: #2980b9;
+}
+
+.cart-btn {
+    background: #e74c3c;
+}
+
+.cart-btn:hover {
+    background: #c0392b;
+}
+
+/* Admin Panel */
+.admin-panel {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 2px solid #3498db;
+}
+
+.admin-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.admin-form input, .admin-form textarea, .admin-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.admin-form textarea {
+    grid-column: 1 / -1;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.admin-form button {
+    grid-column: 1 / -1;
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-form button:hover {
+    background: #219a52;
+}
+
+/* Cart Sidebar */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.open {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-close {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#cartItems {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.qty-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.remove-item {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.cart-total {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.checkout-btn, .clear-cart-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.checkout-btn {
+    background: #27ae60;
+    color: white;
+}
+
+.clear-cart-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Products Grid */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.product-info p {
+    color: #666;
+    margin: 0 0 15px 0;
+    font-size: 14px;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 15px;
+}
+
+.add-to-cart {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.add-to-cart:hover {
+    background: #c0392b;
+}
+
+.delete-product {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    display: none;
+}
+
+.admin-mode .delete-product {
+    display: block;
+}
+
+/* Categories */
+.shop-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 10px 20px;
+    border: 2px solid #3498db;
+    background: white;
+    color: #3498db;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-btn.active, .category-btn:hover {
+    background: #3498db;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cart-sidebar {
+        width: 100vw;
+        right: -100vw;
+    }
+    
+    .admin-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .shop-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
+
+<!-- ADD THIS JAVASCRIPT TO YOUR EXISTING SCRIPT SECTION -->
+<script>
+// Shop System Variables
+let products = [];
+let cart = [];
+let isAdminMode = false;
+let nextProductId = 1;
+
+// Initialize Shop
+function initializeShop() {
+    // Load default products
+    products = [
+        {
+            id: 1,
+            name: 'Traditional Adire Fabric',
+            price: 8500,
+            description: 'Hand-dyed indigo fabric with traditional patterns',
+            category: 'adire',
+            image: '🎨'
+        },
+        {
+            id: 2,
+            name: 'Children\'s Canvas Art',
+            price: 5000,
+            description: 'Original paintings by our young artists',
+            category: 'art',
+            image: '🖼️'
+        },
+        {
+            id: 3,
+            name: 'Pottery Collection',
+            price: 12000,
+            description: 'Handmade ceramic items with Nigerian motifs',
+            category: 'crafts',
+            image: '🏺'
+        },
+        {
+            id: 4,
+            name: 'Adire Learning Kit',
+            price: 15000,
+            description: 'Complete kit with materials and instructions',
+            category: 'kits',
+            image: '📦'
+        }
+    ];
+    nextProductId = 5;
+    renderProducts();
+    updateCartDisplay();
+}
+
+// Admin Functions
+function toggleAdmin() {
+    isAdminMode = !isAdminMode;
+    const adminPanel = document.getElementById('adminPanel');
+    const adminBtn = document.getElementById('adminBtn');
+    const productsGrid = document.getElementById('productsGrid');
+    
+    if (isAdminMode) {
+        adminPanel.style.display = 'block';
+        adminBtn.textContent = 'Exit Admin';
+        adminBtn.style.background = '#e74c3c';
+        productsGrid.classList.add('admin-mode');
+    } else {
+        adminPanel.style.display = 'none';
+        adminBtn.textContent = 'Admin';
+        adminBtn.style.background = '#3498db';
+        productsGrid.classList.remove('admin-mode');
+    }
+}
+
+// Add Product
+document.getElementById('addProductForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('productName').value;
+    const price = parseInt(document.getElementById('productPrice').value);
+    const description = document.getElementById('productDesc').value;
+    const category = document.getElementById('productCategory').value;
+    const imageFile = document.getElementById('productImage').files[0];
+    
+    let image = '🛍️'; // Default icon
+    
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            image = `<img src="${e.target.result}" alt="${name}">`;
+            addProduct(name, price, description, category, image);
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        addProduct(name, price, description, category, image);
+    }
+    
+    this.reset();
+});
+
+function addProduct(name, price, description, category, image) {
+    const newProduct = {
+        id: nextProductId++,
+        name,
+        price,
+        description,
+        category,
+        image
+    };
+    
+    products.push(newProduct);
+    renderProducts();
+    alert('Product added successfully!');
+}
+
+// Delete Product
+function deleteProduct(productId) {
+    if (confirm('Are you sure you want to delete this product?')) {
+        products = products.filter(product => product.id !== productId);
+        renderProducts();
+    }
+}
+
+// Render Products
+function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+    
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.dataset.category = product.category;
+        
+        productCard.innerHTML = `
+            <button class="delete-product" onclick="deleteProduct(${product.id})">×</button>
+            <div class="product-image">${product.image}</div>
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="price">₦${product.price.toLocaleString()}</div>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        `;
+        
+        grid.appendChild(productCard);
+    });
+}
+
+// Cart Functions
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            ...product,
+            quantity: 1
+        });
+    }
+    
+    updateCartDisplay();
+    showCartAnimation();
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartDisplay();
+    renderCartItems();
+}
+
+function updateQuantity(productId, change) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            updateCartDisplay();
+            renderCartItems();
+        }
+    }
+}
+
+function updateCartDisplay() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    document.getElementById('cartCount').textContent = totalItems;
+    document.getElementById('cartTotal').textContent = totalPrice.toLocaleString();
+    document.getElementById('sidebarTotal').textContent = totalPrice.toLocaleString();
+}
+
+function toggleCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    sidebar.classList.toggle('open');
+    renderCartItems();
+}
+
+function renderCartItems() {
+    const cartItems = document.getElementById('cartItems');
+    cartItems.innerHTML = '';
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+        return;
+    }
+    
+    cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <div class="cart-item-info">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+                <div class="quantity-controls">
+                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                    <span>Qty: ${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                </div>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+        `;
+        cartItems.appendChild(cartItem);
+    });
+}
+
+function clearCart() {
+    if (confirm('Are you sure you want to clear your cart?')) {
+        cart = [];
+        updateCartDisplay();
+        renderCartItems();
+    }
+}
+
+function proceedCheckout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const itemsList = cart.map(item => `${item.name} (Qty: ${item.quantity})`).join('\n');
+    
+    alert(`Order Summary:\n${itemsList}\n\nTotal: ₦${total.toLocaleString()}\n\nThank you! We will contact you for payment and delivery details.`);
+    
+    cart = [];
+    updateCartDisplay();
+    renderCartItems();
+    toggleCart();
+}
+
+function showCartAnimation() {
+    const cartBtn = document.getElementById('cartBtn');
+    cartBtn.style.transform = 'scale(1.1)';
+    cartBtn.style.background = '#27ae60';
+    
+    setTimeout(() => {
+        cartBtn.style.transform = 'scale(1)';
+        cartBtn.style.background = '#e74c3c';
+    }, 300);
+}
+
+// Filter Products
+function filterProducts(category) {
+    const buttons = document.querySelectorAll('.category-btn');
+    const products = document.querySelectorAll('.product-card');
+    
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+}
+
+// Initialize when shop section is shown
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('shop')) {
+        initializeShop();
+    }
+});
+</script>

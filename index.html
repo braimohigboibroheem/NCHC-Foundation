@@ -15,6 +15,9 @@
                 <li><a onclick="showSection('home')">Home</a></li>
                 <li><a onclick="showSection('about')">About</a></li>
                 <li><a onclick="showSection('programs')">Programs</a></li>
+                    <li><a onclick="showSection('online-classes')">E- Classes</a></li>
+                        <li><a onclick="showSection('shop')">Shop</a></li>
+                        <li><a onclick="showSection('volunteer')">Volunteer/Sponsor</a></li>
                 <li><a onclick="showSection('events')">Events</a></li>
                 <li><a onclick="showSection('blog')">News & Blog</a></li>
                 <li><a onclick="showSection('contact')">Contact</a></li>
@@ -122,6 +125,185 @@
             </div>
         </section>
 
+<!-- 2. ADD THIS ONLINE CLASSES SECTION AFTER YOUR PROGRAMS SECTION -->
+<!-- Insert this right after the closing </section> tag of your programs section -->
+        <section id="online-classes" class="section">
+    <h2>Online Classes</h2>
+    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 30px;">
+        Join our virtual cultural workshops from anywhere in the world
+    </p>
+    
+    <div class="online-classes-container">
+        <div class="class-schedule">
+            <h3>📅 Upcoming Online Sessions</h3>
+            <div class="class-item">
+                <div class="class-header">
+                    <h4>🎨 Virtual Adire Workshop</h4>
+                    <span class="class-badge">Live Session</span>
+                </div>
+                <div class="class-details">
+                    <p><strong>Date:</strong> Every Saturday, 2:00 PM - 4:00 PM WAT</p>
+                    <p><strong>Duration:</strong> 4 weeks program</p>
+                    <p><strong>Age Group:</strong> 8-16 years</p>
+                    <p><strong>Fee:</strong> ₦15,000</p>
+                    <button class="enroll-btn" onclick="enrollClass('adire')">Enroll Now</button>
+                </div>
+            </div>
+            
+            <div class="class-item">
+                <div class="class-header">
+                    <h4>✏️ Digital Art & Drawing</h4>
+                    <span class="class-badge">Interactive</span>
+                </div>
+                <div class="class-details">
+                    <p><strong>Date:</strong> Every Sunday, 10:00 AM - 12:00 PM WAT</p>
+                    <p><strong>Duration:</strong> 6 weeks program</p>
+                    <p><strong>Age Group:</strong> 5-16 years</p>
+                    <p><strong>Fee:</strong> ₦20,000</p>
+                    <button class="enroll-btn" onclick="enrollClass('digital-art')">Enroll Now</button>
+                </div>
+            </div>
+            
+            <div class="class-item">
+                <div class="class-header">
+                    <h4>🎭 Virtual Cultural Storytelling</h4>
+                    <span class="class-badge">Group Session</span>
+                </div>
+                <div class="class-details">
+                    <p><strong>Date:</strong> Tuesdays & Thursdays, 4:00 PM - 5:30 PM WAT</p>
+                    <p><strong>Duration:</strong> 8 weeks program</p>
+                    <p><strong>Age Group:</strong> 6-14 years</p>
+                    <p><strong>Fee:</strong> ₦18,000</p>
+                    <button class="enroll-btn" onclick="enrollClass('storytelling')">Enroll Now</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="online-features">
+            <h3>Why Choose Our Online Classes?</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-icon">💻</span>
+                    <div>
+                        <h4>Interactive Learning</h4>
+                        <p>Live sessions with real-time interaction and feedback</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📦</span>
+                    <div>
+                        <h4>Materials Delivered</h4>
+                        <p>Art supplies and materials shipped to your doorstep</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🏆</span>
+                    <div>
+                        <h4>Certificates</h4>
+                        <p>Digital certificates upon course completion</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👥</span>
+                    <div>
+                        <h4>Small Groups</h4>
+                        <p>Maximum 8 students per session for personalized attention</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. ADD THIS SHOP SECTION AFTER YOUR ONLINE CLASSES SECTION -->
+<!-- Insert this right after the closing </section> tag of your online-classes section -->
+<section id="shop" class="section">
+    <h2>Heritage Shop</h2>
+    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 30px;">
+        Beautiful handcrafted items made by our talented students and artisans
+    </p>
+    
+    <div class="shop-container">
+        <div class="shop-categories">
+            <button class="category-btn active" onclick="filterProducts('all')">All Items</button>
+            <button class="category-btn" onclick="filterProducts('adire')">Adire Fabrics</button>
+            <button class="category-btn" onclick="filterProducts('art')">Artwork</button>
+            <button class="category-btn" onclick="filterProducts('crafts')">Crafts</button>
+            <button class="category-btn" onclick="filterProducts('kits')">Learning Kits</button>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card" data-category="adire">
+                <div class="product-image">🎨</div>
+                <div class="product-info">
+                    <h3>Traditional Adire Fabric</h3>
+                    <p>Hand-dyed indigo fabric with traditional patterns</p>
+                    <div class="price">₦8,500</div>
+                    <button class="add-to-cart" onclick="addToCart('adire-fabric')">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="art">
+                <div class="product-image">🖼️</div>
+                <div class="product-info">
+                    <h3>Children's Canvas Art</h3>
+                    <p>Original paintings by our young artists</p>
+                    <div class="price">₦5,000</div>
+                    <button class="add-to-cart" onclick="addToCart('canvas-art')">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="crafts">
+                <div class="product-image">🏺</div>
+                <div class="product-info">
+                    <h3>Pottery Collection</h3>
+                    <p>Handmade ceramic items with Nigerian motifs</p>
+                    <div class="price">₦12,000</div>
+                    <button class="add-to-cart" onclick="addToCart('pottery')">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="kits">
+                <div class="product-image">📦</div>
+                <div class="product-info">
+                    <h3>Adire Learning Kit</h3>
+                    <p>Complete kit with materials and instructions</p>
+                    <div class="price">₦15,000</div>
+                    <button class="add-to-cart" onclick="addToCart('adire-kit')">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="art">
+                <div class="product-image">✏️</div>
+                <div class="product-info">
+                    <h3>Drawing Portfolio</h3>
+                    <p>Collection of pencil drawings by students</p>
+                    <div class="price">₦3,500</div>
+                    <button class="add-to-cart" onclick="addToCart('drawing-portfolio')">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="crafts">
+                <div class="product-image">🎭</div>
+                <div class="product-info">
+                    <h3>Cultural Masks</h3>
+                    <p>Traditional Nigerian ceremonial masks</p>
+                    <div class="price">₦20,000</div>
+                    <button class="add-to-cart" onclick="addToCart('cultural-masks')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-summary">
+            <div class="cart-info">
+                <span id="cart-count">0 items in cart</span>
+                <span id="cart-total">₦0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+</section>
+
         <!-- Events Section -->
         <section id="events" class="section">
             <h2>Events</h2>
@@ -169,6 +351,117 @@
                 </div>
             </div>
         </section>
+
+
+<!-- 4. ADD THIS VOLUNTEER/SPONSOR SECTION AFTER YOUR EVENTS SECTION -->
+<!-- Insert this right after the closing </section> tag of your events section -->
+<section id="volunteer" class="section">
+    <h2>Volunteer & Sponsor</h2>
+    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 30px;">
+        Join our mission to preserve Nigerian culture and empower children through arts
+    </p>
+    
+    <div class="volunteer-container">
+        <div class="volunteer-options">
+            <div class="option-card">
+                <h3>🙋‍♀️ Become a Volunteer</h3>
+                <div class="volunteer-roles">
+                    <div class="role-item">
+                        <h4>Workshop Assistant</h4>
+                        <p>Help facilitate arts and crafts sessions with children</p>
+                        <ul>
+                            <li>Time Commitment: 4-6 hours/week</li>
+                            <li>Training provided</li>
+                            <li>Certificate of service</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-item">
+                        <h4>Digital Content Creator</h4>
+                        <p>Create social media content and documentation</p>
+                        <ul>
+                            <li>Photography/Videography skills preferred</li>
+                            <li>Flexible schedule</li>
+                            <li>Portfolio building opportunity</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-item">
+                        <h4>Event Coordinator</h4>
+                        <p>Assist with organizing exhibitions and cultural events</p>
+                        <ul>
+                            <li>Event planning experience helpful</li>
+                            <li>Leadership development</li>
+                            <li>Networking opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="apply-btn" onclick="applyVolunteer()">Apply to Volunteer</button>
+            </div>
+            
+            <div class="option-card">
+                <h3>🤝 Sponsorship Opportunities</h3>
+                <div class="sponsorship-tiers">
+                    <div class="tier-item">
+                        <h4>Bronze Sponsor - ₦50,000</h4>
+                        <ul>
+                            <li>Support 5 children for full workshop program</li>
+                            <li>Company logo on materials</li>
+                            <li>Social media recognition</li>
+                            <li>Tax deduction certificate</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-item featured">
+                        <h4>Silver Sponsor - ₦150,000</h4>
+                        <ul>
+                            <li>Support 15 children for full workshop program</li>
+                            <li>Company booth at exhibitions</li>
+                            <li>Newsletter feature</li>
+                            <li>CSR report inclusion</li>
+                            <li>VIP event invitations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-item">
+                        <h4>Gold Sponsor - ₦300,000+</h4>
+                        <ul>
+                            <li>Support 30+ children</li>
+                            <li>Named workshop location</li>
+                            <li>Custom partnership programs</li>
+                            <li>Annual impact report</li>
+                            <li>Board advisory opportunity</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="sponsor-btn" onclick="becomeSponsor()">Become a Sponsor</button>
+            </div>
+        </div>
+        
+        <div class="impact-stats">
+            <h3>Our Impact So Far</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Children Reached</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Locations Covered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Active Volunteers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Corporate Partners</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
         <!-- Blog Section -->
         <section id="blog" class="section">
@@ -283,7 +576,66 @@
                 </div>
             </div>
         </section>
+
+
+
+<!-- Insert this right before your <footer> tag -->
+<section class="newsletter-section">
+    <div class="newsletter-container">
+        <div class="newsletter-content">
+            <h3>Stay Connected with Our Heritage Community</h3>
+            <p>Get updates on workshops, events, and cultural initiatives. Join over 1,000 subscribers!</p>
+            
+            <form class="newsletter-form" id="newsletterForm">
+                <div class="form-row">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                    <button type="submit" class="subscribe-btn">Subscribe</button>
+                </div>
+                <div class="newsletter-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="workshop-updates" checked>
+                        Workshop announcements
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="event-updates" checked>
+                        Event invitations
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="blog-updates">
+                        Blog updates
+                    </label>
+                </div>
+            </form>
+            
+            <div class="newsletter-benefits">
+                <div class="benefit-item">
+                    <span>📧</span>
+                    <span>Monthly newsletters</span>
+                </div>
+                <div class="benefit-item">
+                    <span>🎟️</span>
+                    <span>Early event access</span>
+                </div>
+                <div class="benefit-item">
+                    <span>💝</span>
+                    <span>Exclusive content</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
     </main>
+
+
+
 
     <footer>
         <div class="footer-content">
@@ -353,10 +705,29 @@
         });
 
         // Mobile menu toggle (basic implementation)
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
+        // document.querySelector('.mobile-menu').addEventListener('click', function() {
+        //     const navLinks = document.querySelector('.nav-links');
+        //     navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        // });
+
+        document.addEventListener("DOMContentLoaded", function () {
+  const mobileMenu = document.querySelector(".mobile-menu");
+  const navLinks = document.querySelector(".nav-links");
+  const navItems = document.querySelectorAll(".nav-links li a");
+
+  // Toggle menu on hamburger click
+  mobileMenu.addEventListener("click", function () {
+    navLinks.classList.toggle("active");
+  });
+
+  // Close menu when any nav link is clicked
+  navItems.forEach(item => {
+    item.addEventListener("click", function () {
+      navLinks.classList.remove("active");
+    });
+  });
+});
+
 
         // Smooth scrolling for CTA button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
@@ -387,6 +758,128 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         });
+
+
+
+
+// Online Classes Functions
+function enrollClass(className) {
+    document.getElementById('loading').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        alert(`Thank you for your interest in ${className}! We will send you enrollment details via email within 24 hours.`);
+    }, 1500);
+}
+
+// Shop Functions
+let cart = [];
+let cartTotal = 0;
+
+const products = {
+    'adire-fabric': { name: 'Traditional Adire Fabric', price: 8500 },
+    'canvas-art': { name: 'Children\'s Canvas Art', price: 5000 },
+    'pottery': { name: 'Pottery Collection', price: 12000 },
+    'adire-kit': { name: 'Adire Learning Kit', price: 15000 },
+    'drawing-portfolio': { name: 'Drawing Portfolio', price: 3500 },
+    'cultural-masks': { name: 'Cultural Masks', price: 20000 }
+};
+
+function filterProducts(category) {
+    const buttons = document.querySelectorAll('.category-btn');
+    const products = document.querySelectorAll('.product-card');
+    
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+}
+
+function addToCart(productId) {
+    const product = products[productId];
+    if (product) {
+        cart.push({id: productId, ...product});
+        cartTotal += product.price;
+        updateCartDisplay();
+        
+        // Show brief confirmation
+        const button = event.target;
+        const originalText = button.textContent;
+        button.textContent = 'Added!';
+        button.style.background = '#27ae60';
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = '#e74c3c';
+        }, 1000);
+    }
+}
+
+function updateCartDisplay() {
+    document.getElementById('cart-count').textContent = `${cart.length} items in cart`;
+    document.getElementById('cart-total').textContent = `₦${cartTotal.toLocaleString()}`;
+}
+
+function checkout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    document.getElementById('loading').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        alert(`Thank you for your order! Total: ₦${cartTotal.toLocaleString()}. We will contact you for payment and delivery details.`);
+        cart = [];
+        cartTotal = 0;
+        updateCartDisplay();
+    }, 2000);
+}
+
+// Volunteer/Sponsor Functions
+function applyVolunteer() {
+    document.getElementById('loading').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        alert('Thank you for your interest in volunteering! We will send you an application form and more details via email.');
+    }, 1500);
+}
+
+function becomeSponsor() {
+    document.getElementById('loading').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        alert('Thank you for your interest in sponsorship! Our partnership team will contact you within 48 hours to discuss opportunities.');
+    }, 1500);
+}
+
+// Newsletter Function
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('newsletter-email').value;
+    const workshopUpdates = document.getElementById('workshop-updates').checked;
+    const eventUpdates = document.getElementById('event-updates').checked;
+    const blogUpdates = document.getElementById('blog-updates').checked;
+    
+    document.getElementById('loading').style.display = 'block';
+    
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        alert(`Thank you for subscribing with ${email}! You'll receive your first newsletter within a week.`);
+        this.reset();
+        // Reset checkboxes to default state
+        document.getElementById('workshop-updates').checked = true;
+        document.getElementById('event-updates').checked = true;
+        document.getElementById('blog-updates').checked = false;
+    }, 2000);
+});
+
+
     </script>
 </body>
 </html>

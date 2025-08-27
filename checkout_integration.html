@@ -1,0 +1,584 @@
+<!-- ADD THIS CHECKOUT MODAL TO YOUR SHOP SECTION (after cart sidebar) -->
+<div id="checkoutModal" class="checkout-modal" style="display: none;">
+    <div class="checkout-content">
+        <div class="checkout-header">
+            <h3>Complete Your Order</h3>
+            <span class="close" onclick="closeCheckout()">&times;</span>
+        </div>
+        
+        <div class="checkout-body">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h4>Order Summary</h4>
+                <div id="checkoutItems"></div>
+                <div class="order-total">
+                    <strong>Total: ₦<span id="checkoutTotal">0</span></strong>
+                </div>
+            </div>
+            
+            <!-- Customer Details Form -->
+            <form id="customerDetailsForm" class="customer-form">
+                <h4>Your Details</h4>
+                
+                <div class="form-group">
+                    <label for="customerName">Full Name *</label>
+                    <input type="text" id="customerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number *</label>
+                    <input type="tel" id="customerPhone" required placeholder="+234...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerEmail">Email Address *</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address *</label>
+                    <textarea id="deliveryAddress" required placeholder="Enter your full delivery address"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orderNotes">Special Instructions (Optional)</label>
+                    <textarea id="orderNotes" placeholder="Any special requests or delivery instructions"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">Preferred Payment Method *</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select payment method</option>
+                        <option value="bank-transfer">Bank Transfer</option>
+                        <option value="cash-on-delivery">Cash on Delivery</option>
+                        <option value="card">Card Payment</option>
+                        <option value="ussd">USSD Payment</option>
+                    </select>
+                </div>
+            </form>
+            
+            <!-- Contact Options -->
+            <div class="contact-options">
+                <h4>Complete Your Order Via:</h4>
+                <div class="contact-buttons">
+                    <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+                        <span class="btn-icon">📱</span>
+                        Continue via WhatsApp
+                    </button>
+                    <button class="email-btn" onclick="sendToEmail()">
+                        <span class="btn-icon">📧</span>
+                        Continue via Email
+                    </button>
+                </div>
+                <p class="contact-note">
+                    Click either button to send your order details. We'll confirm your order and arrange payment & delivery.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD THESE STYLES TO YOUR EXISTING CSS -->
+<style>
+/* Checkout Modal */
+.checkout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.checkout-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #3498db;
+    color: white;
+}
+
+.checkout-header h3 {
+    margin: 0;
+}
+
+.checkout-header .close {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.checkout-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Order Summary */
+.order-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.order-summary h4 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+}
+
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.checkout-item:last-child {
+    border-bottom: none;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-quantity {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.order-total {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #3498db;
+}
+
+/* Customer Form */
+.customer-form h4 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Contact Options */
+.contact-options {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.contact-options h4 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+}
+
+.contact-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.whatsapp-btn,
+.email-btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s;
+}
+
+.whatsapp-btn {
+    background: #25D366;
+    color: white;
+}
+
+.whatsapp-btn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+}
+
+.email-btn {
+    background: #34495e;
+    color: white;
+}
+
+.email-btn:hover {
+    background: #2c3e50;
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
+.contact-note {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .checkout-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .checkout-body {
+        padding: 15px;
+    }
+    
+    .contact-buttons {
+        flex-direction: column;
+    }
+    
+    .whatsapp-btn,
+    .email-btn {
+        flex: none;
+    }
+}
+
+/* Success Animation */
+@keyframes checkoutSuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.checkout-success {
+    animation: checkoutSuccess 0.3s ease;
+}
+</style>
+
+<!-- REPLACE YOUR EXISTING CHECKOUT JAVASCRIPT FUNCTION -->
+<script>
+// Replace the existing proceedCheckout function with this enhanced version
+function proceedCheckout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    // Show checkout modal
+    document.getElementById('checkoutModal').style.display = 'flex';
+    
+    // Populate order summary
+    populateOrderSummary();
+    
+    // Close cart sidebar
+    document.getElementById('cartSidebar').classList.remove('open');
+}
+
+function populateOrderSummary() {
+    const checkoutItems = document.getElementById('checkoutItems');
+    const checkoutTotal = document.getElementById('checkoutTotal');
+    
+    checkoutItems.innerHTML = '';
+    
+    let total = 0;
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'checkout-item';
+        itemDiv.innerHTML = `
+            <div class="item-details">
+                <div class="item-name">${item.name}</div>
+                <div class="item-quantity">Quantity: ${item.quantity}</div>
+            </div>
+            <div class="item-price">₦${itemTotal.toLocaleString()}</div>
+        `;
+        checkoutItems.appendChild(itemDiv);
+    });
+    
+    checkoutTotal.textContent = total.toLocaleString();
+}
+
+function closeCheckout() {
+    document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function validateCustomerForm() {
+    const requiredFields = [
+        'customerName',
+        'customerPhone', 
+        'customerEmail',
+        'deliveryAddress',
+        'paymentMethod'
+    ];
+    
+    for (let fieldId of requiredFields) {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+            field.focus();
+            alert(`Please fill in your ${field.previousElementSibling.textContent.replace(' *', '')}`);
+            return false;
+        }
+    }
+    
+    // Validate email format
+    const email = document.getElementById('customerEmail').value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById('customerEmail').focus();
+        alert('Please enter a valid email address');
+        return false;
+    }
+    
+    // Validate phone format (basic)
+    const phone = document.getElementById('customerPhone').value;
+    if (phone.length < 10) {
+        document.getElementById('customerPhone').focus();
+        alert('Please enter a valid phone number');
+        return false;
+    }
+    
+    return true;
+}
+
+function getOrderDetails() {
+    const customerName = document.getElementById('customerName').value;
+    const customerPhone = document.getElementById('customerPhone').value;
+    const customerEmail = document.getElementById('customerEmail').value;
+    const deliveryAddress = document.getElementById('deliveryAddress').value;
+    const orderNotes = document.getElementById('orderNotes').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    
+    // Calculate totals
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    // Format items list
+    const itemsList = cart.map(item => 
+        `• ${item.name} - Qty: ${item.quantity} - ₦${(item.price * item.quantity).toLocaleString()}`
+    ).join('\n');
+    
+    return {
+        customerName,
+        customerPhone,
+        customerEmail,
+        deliveryAddress,
+        orderNotes,
+        paymentMethod,
+        itemsList,
+        totalItems,
+        totalPrice,
+        orderDate: new Date().toLocaleDateString('en-NG')
+    };
+}
+
+function sendToWhatsApp() {
+    if (!validateCustomerForm()) return;
+    
+    const orderDetails = getOrderDetails();
+    
+    // Format message for WhatsApp
+    const message = `🛍️ *NEW ORDER - Champions Heritage Shop*
+
+👤 *Customer Details:*
+Name: ${orderDetails.customerName}
+Phone: ${orderDetails.customerPhone}
+Email: ${orderDetails.customerEmail}
+
+📦 *Order Details:*
+${orderDetails.itemsList}
+
+📊 *Order Summary:*
+Total Items: ${orderDetails.totalItems}
+Total Amount: ₦${orderDetails.totalPrice.toLocaleString()}
+
+🚚 *Delivery Address:*
+${orderDetails.deliveryAddress}
+
+💳 *Payment Method:* ${orderDetails.paymentMethod}
+
+📝 *Special Instructions:*
+${orderDetails.orderNotes || 'None'}
+
+📅 *Order Date:* ${orderDetails.orderDate}
+
+Please confirm this order and let me know the next steps for payment and delivery. Thank you!`;
+
+    // Your business WhatsApp number (replace with actual number)
+    const whatsappNumber = '+2348034107270'; // Replace with your WhatsApp business number
+    
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    // Success feedback
+    showOrderSuccess('WhatsApp');
+}
+
+function sendToEmail() {
+    if (!validateCustomerForm()) return;
+    
+    const orderDetails = getOrderDetails();
+    
+    // Format email subject and body
+    const subject = `New Order from ${orderDetails.customerName} - Champions Heritage Shop`;
+    
+    const emailBody = `Dear Champions Heritage Team,
+
+I would like to place the following order:
+
+CUSTOMER DETAILS:
+Name: ${orderDetails.customerName}
+Phone: ${orderDetails.customerPhone}
+Email: ${orderDetails.customerEmail}
+
+ORDER DETAILS:
+${orderDetails.itemsList}
+
+ORDER SUMMARY:
+Total Items: ${orderDetails.totalItems}
+Total Amount: ₦${orderDetails.totalPrice.toLocaleString()}
+
+DELIVERY ADDRESS:
+${orderDetails.deliveryAddress}
+
+PAYMENT METHOD: ${orderDetails.paymentMethod}
+
+SPECIAL INSTRUCTIONS:
+${orderDetails.orderNotes || 'None'}
+
+ORDER DATE: ${orderDetails.orderDate}
+
+Please confirm this order and let me know the next steps for payment and delivery.
+
+Thank you!
+
+Best regards,
+${orderDetails.customerName}`;
+
+    // Your business email (replace with actual email)
+    const businessEmail = 'Ngchildrenworkshop@gmail.com'; // Replace with your business email
+    
+    const emailUrl = `mailto:${businessEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open email client
+    window.location.href = emailUrl;
+    
+    // Success feedback
+    showOrderSuccess('Email');
+}
+
+function showOrderSuccess(method) {
+    // Close checkout modal
+    closeCheckout();
+    
+    // Clear cart
+    cart = [];
+    updateCartDisplay();
+    renderCartItems();
+    
+    // Show success message
+    const successMessage = `🎉 Order sent via ${method}!
+    
+Your order details have been sent to our team. We will contact you within 2-4 hours to confirm your order and arrange payment & delivery.
+
+Thank you for shopping with Champions Heritage!
+
+Order Reference: CH${Date.now().toString().slice(-6)}`;
+    
+    alert(successMessage);
+    
+    // Optional: Show success animation
+    document.querySelector('.products-grid').classList.add('checkout-success');
+    setTimeout(() => {
+        document.querySelector('.products-grid').classList.remove('checkout-success');
+    }, 600);
+}
+
+// Close modal when clicking outside
+document.getElementById('checkoutModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeCheckout();
+    }
+});
+
+// Add Enter key support for form
+// Add Enter key support for form
+document.getElementById('customerDetailsForm').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        // Focus next input or trigger WhatsApp if last field
+        const inputs = this.querySelectorAll('input, select, textarea');
+        const currentIndex = Array.from(inputs).indexOf(e.target);
+        if (currentIndex < inputs.length - 1) {
+            inputs[currentIndex + 1].focus();
+        }
+    }
+});
